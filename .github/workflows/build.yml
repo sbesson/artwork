@@ -1,0 +1,23 @@
+---
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Generate logos
+        run: ./build.sh
+        env:
+          UID: 1001
+      - name: Upload website archive as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }}.tar.gz
+          path: *.zip

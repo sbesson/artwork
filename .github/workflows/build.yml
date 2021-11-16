@@ -12,12 +12,41 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Generate logos
+      - name: Generate artwork
         run: ./build.sh
         env:
           UID: 1001
-      - name: Upload website archive as artifact
+      - name: Upload artwork as artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.repository.name }}.tar.gz
           path: target/
+  release:
+    if: startsWith(github.ref, 'refs/tags')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artwork artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }}.tar.gz
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload website as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ github.event.repository.name }}.tar.gz
+          asset_name: ${{ github.event.repository.name }}.tar.gz
+          asset_content_type: application/gzip
+

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-find * -name *.svg -exec sh -c 'convert --background none $1  "${1%.*}.png"' sh {} \;
+find * -name *.svg -exec sh -c 'convert -background none $1  "${1%.*}.png"' sh {} \;
 mkdir -p target
 zip -r target/idr-logos.zip idr
 zip -r target/ome-logos.zip ome

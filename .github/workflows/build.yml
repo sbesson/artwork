@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: idr-logos.zip
+          asset_path: target/idr-logos.zip
           asset_name: idr-logos.zip
           asset_content_type: application/gzip
       - name: Upload website as release asset
@@ -58,7 +58,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ome-logos.zip
+          asset_path: target/ome-logos.zip
           asset_name: ome-logos.zip
           asset_content_type: application/gzip
       - name: Upload website as release asset
@@ -67,6 +67,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ome-product-logos.zip
+          asset_path: target/ome-product-logos.zip
           asset_name: ome-product-logos.zip
           asset_content_type: application/gzip

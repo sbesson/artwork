@@ -33,9 +33,6 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}
           path: target/
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: target/
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -52,7 +49,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ github.event.repository.name }}.zip
-          asset_name: ${{ github.event.repository.name }}.zip
+          asset_path: idr-logos.zip
+          asset_name: idr-logos.zip
           asset_content_type: application/gzip
-
+      - name: Upload website as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ome-logos.zip
+          asset_name: ome-logos.zip
+          asset_content_type: application/gzip
+      - name: Upload website as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ome-product-logos.zip
+          asset_name: ome-product-logos.zip
+          asset_content_type: application/gzip
